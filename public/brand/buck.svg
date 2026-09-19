@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" width="320" height="360" role="img" aria-label="Buck">
+  <defs>
+    <linearGradient id="bodyTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="45%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+    <linearGradient id="domeShine" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#5EEAD4"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+    <linearGradient id="panelDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="55%" stop-color="#FACC15"/>
+      <stop offset="100%" stop-color="#CA8A04"/>
+    </radialGradient>
+    <filter id="softShadow" x="-20%" y="-10%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0F766E" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="160" cy="338" rx="78" ry="14" fill="#0F766E" opacity="0.18"/>
+
+  <!-- wheel -->
+  <ellipse cx="160" cy="300" rx="42" ry="42" fill="#0F172A"/>
+  <ellipse cx="160" cy="300" rx="28" ry="28" fill="#1E293B"/>
+  <ellipse cx="160" cy="300" rx="12" ry="12" fill="#64748B"/>
+  <circle cx="160" cy="300" r="4" fill="#CBD5E1"/>
+
+  <!-- axle / neck to wheel -->
+  <rect x="146" y="268" width="28" height="28" rx="8" fill="#1E293B"/>
+
+  <!-- main body (barrel) -->
+  <g filter="url(#softShadow)">
+    <path d="M70 120
+             C70 78 108 52 160 52
+             C212 52 250 78 250 120
+             L250 250
+             C250 278 214 298 160 298
+             C106 298 70 278 70 250
+             Z" fill="url(#bodyTeal)"/>
+  </g>
+
+  <!-- side panels / seams -->
+  <path d="M88 130 L88 240" stroke="#134E4A" stroke-width="3" opacity="0.45" fill="none"/>
+  <path d="M232 130 L232 240" stroke="#134E4A" stroke-width="3" opacity="0.45" fill="none"/>
+  <path d="M105 155 L215 155" stroke="#99F6E4" stroke-width="2" opacity="0.35" fill="none"/>
+  <path d="M100 210 L220 210" stroke="#134E4A" stroke-width="2.5" opacity="0.4" fill="none"/>
+
+  <!-- rivets -->
+  <circle cx="96" cy="140" r="3.5" fill="#99F6E4" opacity="0.7"/>
+  <circle cx="224" cy="140" r="3.5" fill="#99F6E4" opacity="0.7"/>
+  <circle cx="96" cy="230" r="3.5" fill="#99F6E4" opacity="0.55"/>
+  <circle cx="224" cy="230" r="3.5" fill="#99F6E4" opacity="0.55"/>
+
+  <!-- dome / head -->
+  <path d="M95 118
+           C95 78 122 48 160 48
+           C198 48 225 78 225 118
+           L225 128 L95 128 Z" fill="url(#domeShine)"/>
+  <ellipse cx="145" cy="78" rx="28" ry="12" fill="#CCFBF1" opacity="0.45"/>
+
+  <!-- visor band -->
+  <rect x="92" y="108" width="136" height="36" rx="12" fill="url(#panelDark)"/>
+  <rect x="98" y="113" width="124" height="26" rx="9" fill="#020617"/>
+
+  <!-- eyes -->
+  <circle cx="132" cy="126" r="11" fill="url(#eyeGlow)"/>
+  <circle cx="188" cy="126" r="11" fill="url(#eyeGlow)"/>
+  <circle cx="129" cy="123" r="3.5" fill="#FEFCE8" opacity="0.9"/>
+  <circle cx="185" cy="123" r="3.5" fill="#FEFCE8" opacity="0.9"/>
+
+  <!-- chest screen -->
+  <rect x="122" y="168" width="76" height="58" rx="10" fill="#0F172A" stroke="#5EEAD4" stroke-width="3"/>
+  <rect x="128" y="174" width="64" height="46" rx="6" fill="#022C22"/>
+  <!-- pixel smile -->
+  <rect x="142" y="186" width="8" height="8" fill="#4ADE80"/>
+  <rect x="170" y="186" width="8" height="8" fill="#4ADE80"/>
+  <rect x="142" y="202" width="8" height="8" fill="#4ADE80"/>
+  <rect x="150" y="210" width="8" height="8" fill="#4ADE80"/>
+  <rect x="158" y="210" width="8" height="8" fill="#4ADE80"/>
+  <rect x="166" y="210" width="8" height="8" fill="#4ADE80"/>
+  <rect x="174" y="202" width="8" height="8" fill="#4ADE80"/>
+
+  <!-- side lights (amber, like poster accents) -->
+  <circle cx="84" cy="175" r="7" fill="#FBBF24"/>
+  <circle cx="84" cy="175" r="3" fill="#FEF3C7"/>
+  <circle cx="236" cy="175" r="7" fill="#FBBF24"/>
+  <circle cx="236" cy="175" r="3" fill="#FEF3C7"/>
+
+  <!-- bottom vents -->
+  <rect x="112" y="248" width="18" height="8" rx="2" fill="#134E4A"/>
+  <rect x="138" y="248" width="18" height="8" rx="2" fill="#134E4A"/>
+  <rect x="164" y="248" width="18" height="8" rx="2" fill="#134E4A"/>
+  <rect x="190" y="248" width="18" height="8" rx="2" fill="#134E4A"/>
+
+  <!-- teal accent stripe (like poster teal panels) -->
+  <path d="M78 188 L92 188 L92 228 L78 220 Z" fill="#14B8A6" opacity="0.85"/>
+  <path d="M242 188 L228 188 L228 228 L242 220 Z" fill="#14B8A6" opacity="0.85"/>
+
+  <!-- antenna -->
+  <line x1="160" y1="52" x2="160" y2="30" stroke="#134E4A" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="160" cy="26" r="6" fill="#FFC94A"/>
+  <circle cx="160" cy="26" r="2.5" fill="#FEF3C7"/>
+
+  <!-- name plate -->
+  <rect x="130" y="236" width="60" height="14" rx="4" fill="#022C22" opacity="0.85"/>
+  <text x="160" y="246" text-anchor="middle" font-family="Nunito, Arial, sans-serif" font-size="10" font-weight="700" fill="#5EEAD4">BUCK</text>
+</svg>

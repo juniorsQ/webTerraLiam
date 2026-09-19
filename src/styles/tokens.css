@@ -1,0 +1,32 @@
+:root {
+  --teal: #2bb8c8;
+  --teal-deep: #1a9aab;
+  --sky: #7ed6ff;
+  --sky-deep: #4bb8f0;
+  --lime: #a8e63a;
+  --leaf: #5dd67a;
+  --cream: #fff6e8;
+  --sand: #ffe4b8;
+  --ink: #2a3a55;
+  --muted: #6b7c94;
+  --gold: #ffc94a;
+  --coral: #ff8a65;
+  --lavender: #b39dff;
+  --epic: #c084fc;
+  --rare: #60a5fa;
+  --common: #5dd67a;
+  --night-sky: #1b2a4a;
+  --night-panel: #243556;
+  --night-field: #2f4263;
+  --night-sand: #3d4f6e;
+  --on-night: #f5f7fa;
+  --white: #ffffff;
+  --hero-sky: #8fe0ff;
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+  --radius-card: 24px;
+  --radius-btn: 28px;
+  --radius-input: 22px;
+  --border-card: 3px;
+  --max: 1120px;
+}
