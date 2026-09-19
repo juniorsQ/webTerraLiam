@@ -79,7 +79,7 @@ onMounted(() => {
 <style scoped>
 .intro {
   position: relative;
-  min-height: calc(100svh - 76px);
+  min-height: 100svh;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -92,11 +92,12 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 28%;
 }
 
 .backdrop {
-  filter: blur(26px) saturate(1.1);
-  transform: scale(1.12);
+  filter: blur(28px) saturate(1.15);
+  transform: scale(1.08);
 }
 
 .poster {
@@ -109,40 +110,10 @@ onMounted(() => {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(27, 42, 74, 0.45) 0%,
-    rgba(27, 42, 74, 0.25) 40%,
-    rgba(27, 42, 74, 0.88) 100%
+    rgba(27, 42, 74, 0.28) 0%,
+    rgba(27, 42, 74, 0.12) 38%,
+    rgba(27, 42, 74, 0.72) 100%
   );
-}
-
-/* Wide screens: show the portrait video whole on the right, copy on the left. */
-@media (min-width: 900px) {
-  .intro {
-    align-items: center;
-  }
-
-  .main {
-    left: auto;
-    right: 4%;
-    width: 42%;
-    object-fit: contain;
-  }
-
-  .veil {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(27, 42, 74, 0.92) 0%,
-        rgba(27, 42, 74, 0.78) 42%,
-        rgba(27, 42, 74, 0.25) 100%
-      ),
-      linear-gradient(180deg, rgba(27, 42, 74, 0.3) 0%, rgba(27, 42, 74, 0.55) 100%);
-  }
-
-  .content {
-    max-width: 52%;
-    padding-bottom: 5rem;
-  }
 }
 
 .content {
