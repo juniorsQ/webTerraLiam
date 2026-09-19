@@ -1,6 +1,8 @@
 export const SECTION_META = [
   { key: 'nav', label: 'Navegación' },
+  { key: 'intro', label: 'Intro en video' },
   { key: 'hero', label: 'Hero' },
+  { key: 'pitch', label: 'Presentación' },
   { key: 'how', label: 'Cómo funciona' },
   { key: 'kids', label: 'Para niños' },
   { key: 'parents', label: 'Para padres' },
@@ -49,6 +51,14 @@ export const SECTION_FIELDS = {
       fields: [text('label', 'Texto'), text('href', 'Ruta')],
     },
   ],
+  intro: [
+    text('badge', 'Badge (Incoming)'),
+    text('title', 'Título'),
+    area('sub', 'Subtítulo'),
+    text('scrollLabel', 'Texto del scroll'),
+    text('videoSrc', 'Ruta del video (/video/intro.mp4)'),
+    text('poster', 'Imagen de respaldo'),
+  ],
   hero: [
     text('eyebrow', 'Eyebrow'),
     text('h1', 'Título'),
@@ -61,6 +71,11 @@ export const SECTION_FIELDS = {
     text('supervision', 'Línea de supervisión (adulto a cargo)'),
     lines('trust', 'Fila de confianza (una por línea)'),
     text('liamAlt', 'Texto alternativo de Liam + Buck'),
+  ],
+  pitch: [
+    text('eyebrow', 'Eyebrow'),
+    text('title', 'Título'),
+    lines('paragraphs', 'Párrafos (uno por línea)'),
   ],
   how: [
     text('title', 'Título'),

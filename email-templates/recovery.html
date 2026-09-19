@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recuperar contraseña — Terra Liam</title>
+  </head>
+  <body style="margin:0;padding:0;background:#FFF6E8;font-family:'Segoe UI',Helvetica,Arial,sans-serif;color:#2A3A55;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#FFF6E8;padding:32px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="560" cellspacing="0" cellpadding="0" style="max-width:560px;width:100%;background:#ffffff;border:3px solid #2BB8C8;border-radius:24px;overflow:hidden;">
+            <tr>
+              <td align="center" style="background:#7ED6FF;padding:28px 24px 8px;">
+                <img
+                  src="https://terraliam.vercel.app/brand/buck.png"
+                  width="112"
+                  alt="Buck — Terra Liam"
+                  style="display:block;border:0;"
+                />
+                <p style="margin:12px 0 0;font-size:28px;line-height:1.1;font-weight:800;color:#1A9AAB;letter-spacing:-0.02em;">
+                  Terra Liam
+                </p>
+                <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#2A3A55;">
+                  Liam y Buck te esperan
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 28px 8px;">
+                <h1 style="margin:0 0 10px;font-size:24px;line-height:1.2;color:#2A3A55;">
+                  ¿Olvidaste tu contraseña?
+                </h1>
+                <p style="margin:0 0 14px;font-size:16px;line-height:1.5;font-weight:600;color:#6B7C94;">
+                  Hola. Buck y Liam te ayudan a recuperar el acceso a tu cuenta de adulto en Terra Liam.
+                </p>
+                <p style="margin:0 0 22px;font-size:15px;line-height:1.5;color:#2A3A55;">
+                  Pulsa el botón para elegir una contraseña nueva. El enlace caduca pronto por seguridad.
+                </p>
+                <table role="presentation" cellspacing="0" cellpadding="0" style="margin:0 auto 22px;">
+                  <tr>
+                    <td align="center" style="border-radius:999px;background:#A8E63A;">
+                      <a
+                        href="{{ .ConfirmationURL }}"
+                        style="display:inline-block;padding:14px 28px;font-size:16px;font-weight:800;color:#2A3A55;text-decoration:none;"
+                      >
+                        Crear nueva contraseña
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+                <p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:#6B7C94;">
+                  Si el botón no funciona, copia y pega este enlace en el navegador:
+                </p>
+                <p style="margin:0 0 18px;font-size:12px;line-height:1.4;word-break:break-all;color:#1A9AAB;">
+                  {{ .ConfirmationURL }}
+                </p>
+                <p style="margin:0;font-size:13px;line-height:1.5;color:#6B7C94;">
+                  Si no pediste este cambio, ignora este correo. Tu cuenta sigue segura.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 28px 28px;border-top:2px solid #FFE4B8;">
+                <p style="margin:0;font-size:12px;line-height:1.5;color:#6B7C94;text-align:center;">
+                  Terra Liam · solo para la cuenta del adulto<br />
+                  <a href="https://terraliam.vercel.app" style="color:#1A9AAB;font-weight:700;text-decoration:none;">terraliam.vercel.app</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

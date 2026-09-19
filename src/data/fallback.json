@@ -6,8 +6,8 @@
     "ctaHref": "#descargar",
     "links": [
       { "label": "Cómo funciona", "href": "#como-funciona" },
-      { "label": "Para familias", "href": "#familias" },
-      { "label": "Mini-juegos", "href": "#minijuegos" },
+      { "label": "Familias", "href": "#familias" },
+      { "label": "Juegos", "href": "#minijuegos" },
       { "label": "Seguridad", "href": "#seguridad" }
     ],
     "legalLinks": [
@@ -16,6 +16,14 @@
       { "label": "Familias", "href": "/familias" },
       { "label": "Eliminar cuenta", "href": "/eliminar-cuenta" }
     ]
+  },
+  "intro": {
+    "badge": "Incoming",
+    "title": "Terra Liam está por llegar",
+    "sub": "Un juego familiar al aire libre con Liam y Buck. Mira el avance y baja para descubrir cómo funciona.",
+    "scrollLabel": "Baja para ver más",
+    "videoSrc": "/video/intro.mp4",
+    "poster": ""
   },
   "hero": {
     "eyebrow": "Juego familiar al aire libre",
@@ -34,6 +42,16 @@
       "El adulto está a cargo"
     ],
     "liamAlt": "Liam, niño explorador con traje crema y mangas naranja, junto a Buck el robot de una rueda"
+  },
+  "pitch": {
+    "eyebrow": "Presentación",
+    "title": "Aventura Didáctica en Tiempo Real",
+    "paragraphs": [
+      "Aventura Didáctica en Tiempo Real es una aplicación móvil para Android que combina geolocalización, realidad aumentada e inteligencia artificial en una experiencia interactiva para niños.",
+      "En este juego, los niños encarnan a Liam el Explorador y a su fiel compañero Buck, avanzando por un mapa interactivo para descubrir personajes u objetos estratégicamente situados por sus padres o creadores de mundos.",
+      "Al encontrarlos, los pequeños utilizan la cámara para capturarlos al estilo Pokémon GO; la app procesa las imágenes eliminando automáticamente el fondo para integrarlas de forma limpia al entorno virtual.",
+      "Además, la plataforma ofrece una función premium que transforma las capturas en cortos animados generados por IA, convirtiendo la exploración en un aprendizaje colectivo, interactivo y visualmente fascinante."
+    ]
   },
   "how": {
     "title": "Cómo funciona",

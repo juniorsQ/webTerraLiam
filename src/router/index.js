@@ -5,6 +5,7 @@ import AdminLoginView from '@/views/AdminLoginView.vue'
 import AdminHomeView from '@/views/AdminHomeView.vue'
 import AdminSectionView from '@/views/AdminSectionView.vue'
 import AdminLegalView from '@/views/AdminLegalView.vue'
+import RecoverPasswordView from '@/views/RecoverPasswordView.vue'
 
 const legal = (path, name, slug) => ({
   path,
@@ -16,7 +17,7 @@ const legal = (path, name, slug) => ({
 const router = createRouter({
   history: createWebHistory(),
   scrollBehavior(to) {
-    if (to.hash) {
+    if (to.hash && !to.hash.includes('access_token') && !to.hash.includes('type=recovery')) {
       return { el: to.hash, behavior: 'smooth' }
     }
     return { top: 0 }
@@ -28,6 +29,11 @@ const router = createRouter({
     legal('/familias', 'families', 'familias'),
     legal('/eliminar-cuenta', 'delete-account', 'eliminar-cuenta'),
     { path: '/admin/login', name: 'admin-login', component: AdminLoginView },
+    {
+      path: '/recuperar',
+      name: 'recover-password',
+      component: RecoverPasswordView,
+    },
     { path: '/admin', name: 'admin', component: AdminHomeView },
     {
       path: '/admin/secciones/:sectionKey',

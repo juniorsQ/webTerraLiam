@@ -2,7 +2,9 @@
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <SiteNav :nav="sections.nav" />
   <main id="contenido">
+    <IntroVideo :intro="sections.intro" />
     <SiteHero :hero="sections.hero" />
+    <Presentacion :pitch="sections.pitch" />
     <HowItWorks :how="sections.how" />
     <AudienceSplit :kids="sections.kids" :parents="sections.parents" />
     <RarityRow :rarities="sections.rarities" />
@@ -19,7 +21,9 @@ import { onMounted, ref } from 'vue'
 import fallback from '@/data/fallback.json'
 import { loadHomeSections } from '@/lib/cms'
 import SiteNav from '@/components/SiteNav.vue'
+import IntroVideo from '@/components/IntroVideo.vue'
 import SiteHero from '@/components/SiteHero.vue'
+import Presentacion from '@/components/Presentacion.vue'
 import HowItWorks from '@/components/HowItWorks.vue'
 import AudienceSplit from '@/components/AudienceSplit.vue'
 import RarityRow from '@/components/RarityRow.vue'

@@ -1,5 +1,5 @@
 <template>
-  <section class="hero" aria-labelledby="hero-title">
+  <section id="inicio" class="hero" aria-labelledby="hero-title">
     <div class="sky">
       <span class="sun" aria-hidden="true"></span>
       <div class="wrap grid">
@@ -82,6 +82,8 @@ defineProps({
 }
 
 .grid {
+  /* Keeps the copy above the absolutely positioned sun. */
+  position: relative;
   display: grid;
   gap: 1.5rem;
   padding-top: 2.4rem;

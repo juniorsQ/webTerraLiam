@@ -27,6 +27,9 @@
         </label>
         <p v-if="error" class="error">{{ error }}</p>
         <button class="btn btn-lime" type="submit" :disabled="busy">Entrar</button>
+        <p class="forgot">
+          <router-link to="/recuperar">¿Olvidaste tu contraseña?</router-link>
+        </p>
       </form>
     </div>
   </main>
@@ -94,5 +97,11 @@ h1 {
 .btn {
   width: 100%;
   margin-top: 1rem;
+}
+
+.forgot {
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 800;
 }
 </style>

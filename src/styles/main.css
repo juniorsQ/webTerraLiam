@@ -8,6 +8,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Sticky nav height, so anchors never land under it. */
+  scroll-padding-top: 88px;
 }
 
 body {

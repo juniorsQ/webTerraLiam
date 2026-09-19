@@ -28,14 +28,7 @@
             {{ link.label }}
           </a>
         </template>
-        <router-link
-          v-for="link in nav.legalLinks || []"
-          :key="link.href"
-          :to="link.href"
-          @click="open = false"
-        >
-          {{ link.label }}
-        </router-link>
+        <!-- Legal links live in the footer; the bar stays short. -->
         <a class="btn btn-lime cta" :href="homeLink(nav.ctaHref)" @click="open = false">
           {{ nav.cta }}
         </a>
