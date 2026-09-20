@@ -36,7 +36,7 @@ import SiteFooter from '@/components/SiteFooter.vue'
 const sections = ref(structuredClone(fallback))
 
 onMounted(async () => {
-  document.title = 'Terra Liam — Descubre el mundo a tu alrededor'
+  document.title = 'TerraLiam — Descubre el mundo a tu alrededor'
   const result = await loadHomeSections()
   sections.value = result.sections
 })

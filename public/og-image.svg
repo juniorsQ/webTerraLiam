@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Terra Liam">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="TerraLiam">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#8FE0FF"/>
@@ -10,8 +10,7 @@
   <circle cx="1090" cy="86" r="64" fill="#FFC94A"/>
   <path fill="#B8EBC4" d="M0 430 C180 370 340 470 560 400 C780 330 960 450 1200 380 L1200 630 L0 630 Z"/>
   <path fill="#8FE0C0" d="M0 500 C260 440 480 540 760 470 C980 420 1100 510 1200 480 L1200 630 L0 630 Z"/>
-  <text x="72" y="210" font-family="Fredoka, Nunito, sans-serif" font-size="72" font-weight="700" fill="#2A3A55">Terra</text>
-  <text x="290" y="210" font-family="Fredoka, Nunito, sans-serif" font-size="72" font-weight="700" fill="#1A9AAB">Liam</text>
+  <text x="72" y="210" font-family="Fredoka, Nunito, sans-serif" font-size="72" font-weight="700" fill="#2A3A55">TerraLiam</text>
   <text x="72" y="270" font-family="Nunito, sans-serif" font-size="32" font-weight="800" fill="#4BB8F0">Descubre el mundo a tu alrededor</text>
   <text x="72" y="330" font-family="Nunito, sans-serif" font-size="26" font-weight="700" fill="#2A3A55">Sal al mundo real a jugar</text>
   <image href="brand/app_icon.png" x="720" y="90" width="430" height="430" preserveAspectRatio="xMidYMid meet"/>

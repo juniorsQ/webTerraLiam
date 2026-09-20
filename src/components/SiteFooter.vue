@@ -3,8 +3,7 @@
     <div class="wrap row">
       <p class="brand">
         <span class="wordmark">
-          <span class="terra">Terra</span>
-          <span class="liam">Liam</span>
+          <span class="terra">Terra</span><span class="liam">Liam</span>
         </span>
         <span class="blurb">{{ footer.blurb }}</span>
       </p>
@@ -70,7 +69,6 @@ const legalLinks = computed(() => {
 
 .liam {
   color: var(--teal-deep);
-  margin-left: 0.25rem;
 }
 
 .blurb {

@@ -2,7 +2,7 @@
   <main class="section">
     <div class="wrap card box">
       <img src="/brand/buck.svg" width="72" height="80" alt="Buck" />
-      <h1>CMS Terra Liam</h1>
+      <h1>CMS TerraLiam</h1>
       <p class="admin-note">
         Entra con el usuario de Supabase Auth (email y contraseña). El primer admin se crea en el dashboard del proyecto.
       </p>

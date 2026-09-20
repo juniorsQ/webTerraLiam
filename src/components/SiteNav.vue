@@ -1,11 +1,10 @@
 <template>
   <header class="nav">
     <div class="wrap bar">
-      <router-link class="brand" to="/" aria-label="Terra Liam inicio">
+      <router-link class="brand" to="/" aria-label="TerraLiam inicio">
         <img src="/brand/buck.svg" width="44" height="50" alt="" />
         <span class="wordmark">
-          <span class="terra">{{ nav.wordmarkTerra }}</span>
-          <span class="liam">{{ nav.wordmarkLiam }}</span>
+          <span class="terra">{{ nav.wordmarkTerra }}</span><span class="liam">{{ nav.wordmarkLiam }}</span>
         </span>
       </router-link>
 
@@ -102,7 +101,6 @@ function homeLink(href) {
 
 .liam {
   color: var(--teal-deep);
-  margin-left: 0.28rem;
 }
 
 .links {

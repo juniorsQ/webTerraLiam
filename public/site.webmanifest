@@ -1,0 +1,19 @@
+{
+  "name": "Terra Liam",
+  "short_name": "Terra Liam",
+  "description": "Juego familiar de aventura al aire libre con Liam y Buck.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF6E8",
+  "theme_color": "#FFF6E8",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/brand/app_icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

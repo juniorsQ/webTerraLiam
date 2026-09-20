@@ -19,7 +19,7 @@
   },
   "intro": {
     "badge": "Incoming",
-    "title": "Terra Liam está por llegar",
+    "title": "TerraLiam está por llegar",
     "sub": "Un juego familiar al aire libre con Liam y Buck. Mira el avance y baja para descubrir cómo funciona.",
     "scrollLabel": "Baja para ver más",
     "videoSrc": "/video/intro.mp4",
@@ -188,7 +188,7 @@
   },
   "cta": {
     "kicker": "¿Listos para explorar?",
-    "title": "Descarga Terra Liam",
+    "title": "Descarga TerraLiam",
     "body": "Próximamente en App Store y Google Play. Crea un mundo, esconde un hallazgo y sal a caminar juntos.",
     "appStore": "App Store",
     "playStore": "Google Play",
@@ -205,19 +205,19 @@
     ],
     "contact": "Contacto",
     "contactHref": "mailto:hola@terraliam.app",
-    "copyright": "Terra Liam"
+    "copyright": "TerraLiam"
   },
   "privacy": {
     "title": "Política de privacidad",
-    "reviewerNote": "Privacy policy for Terra Liam, a family outdoor game. The parent or guardian is the account holder.",
+    "reviewerNote": "Privacy policy for TerraLiam, a family outdoor game. The parent or guardian is the account holder.",
     "updated": "Última actualización: 18 de septiembre de 2026",
-    "intro": "Terra Liam es un juego familiar al aire libre. Esta página explica, en lenguaje claro, qué datos usa la app y para qué. No es asesoría legal.",
+    "intro": "TerraLiam es un juego familiar al aire libre. Esta página explica, en lenguaje claro, qué datos usa la app y para qué. No es asesoría legal.",
     "statements": [],
     "steps": [],
     "blocks": [
       {
         "heading": "Quién es responsable",
-        "body": "El responsable de esta app es Terra Liam (el desarrollador).\nContacto: hola@terraliam.app",
+        "body": "El responsable de esta app es TerraLiam (el desarrollador).\nContacto: hola@terraliam.app",
         "bullets": []
       },
       {
@@ -274,18 +274,18 @@
     "title": "Términos de uso",
     "reviewerNote": "Terms of use. The adult parent/guardian is the account holder and is legally responsible; children play only under that adult's supervision.",
     "updated": "Última actualización: 18 de septiembre de 2026",
-    "intro": "Al usar Terra Liam aceptas estas reglas prácticas. La app es un juego para familias, no una niñera ni una red social abierta.",
+    "intro": "Al usar TerraLiam aceptas estas reglas prácticas. La app es un juego para familias, no una niñera ni una red social abierta.",
     "statements": [],
     "steps": [],
     "blocks": [
       {
         "heading": "Para quién es",
-        "body": "Terra Liam es para familias. El adulto (padre, madre o tutor) es el titular de la cuenta y el responsable legal del uso que haga el niño.\nEl niño solo debe usar la app bajo supervisión directa de ese adulto.",
+        "body": "TerraLiam es para familias. El adulto (padre, madre o tutor) es el titular de la cuenta y el responsable legal del uso que haga el niño.\nEl niño solo debe usar la app bajo supervisión directa de ese adulto.",
         "bullets": []
       },
       {
         "heading": "El adulto está a cargo",
-        "body": "El padre, madre o tutor siempre debe estar a cargo. El adulto supervisa al niño. El adulto es el responsable.\nNo uses Terra Liam como niñera, ni para que alguien que no es el tutor vigile o rastree a un menor sin supervisión.",
+        "body": "El padre, madre o tutor siempre debe estar a cargo. El adulto supervisa al niño. El adulto es el responsable.\nNo uses TerraLiam como niñera, ni para que alguien que no es el tutor vigile o rastree a un menor sin supervisión.",
         "bullets": []
       },
       {
@@ -315,7 +315,7 @@
       },
       {
         "heading": "Tiendas y pagos",
-        "body": "Los botones de App Store y Google Play son marcadores de descarga. Hoy Terra Liam no tiene compras dentro de la app. Cuando publiques en una tienda, también aplican las reglas de esa tienda.",
+        "body": "Los botones de App Store y Google Play son marcadores de descarga. Hoy TerraLiam no tiene compras dentro de la app. Cuando publiques en una tienda, también aplican las reglas de esa tienda.",
         "bullets": []
       },
       {
@@ -333,7 +333,7 @@
     "title": "Familias y responsabilidad",
     "reviewerNote": "",
     "updated": "Para revisores de Play: el adulto siempre está a cargo.",
-    "intro": "Terra Liam está pensado para que una familia juegue junta. No es una app social general para niños.",
+    "intro": "TerraLiam está pensado para que una familia juegue junta. No es una app social general para niños.",
     "statements": [
       "El padre, madre o tutor **siempre** debe estar a cargo.",
       "El adulto **supervisa** al niño.",
@@ -355,7 +355,7 @@
       },
       {
         "heading": "Diseñado para familias",
-        "body": "Un mundo de Terra Liam es el espacio que arma el adulto. Aunque un padre pueda marcar un mundo como visible para otras familias, no es una red social abierta para niños ni un chat con extraños. El adulto sigue siendo quien invita, supervisa y responde.",
+        "body": "Un mundo de TerraLiam es el espacio que arma el adulto. Aunque un padre pueda marcar un mundo como visible para otras familias, no es una red social abierta para niños ni un chat con extraños. El adulto sigue siendo quien invita, supervisa y responde.",
         "bullets": []
       }
     ],
@@ -374,7 +374,7 @@
       {
         "n": "1",
         "title": "Entra como padre o tutor",
-        "body": "Abre Terra Liam e inicia sesión con el correo de la cuenta de adulto."
+        "body": "Abre TerraLiam e inicia sesión con el correo de la cuenta de adulto."
       },
       {
         "n": "2",
@@ -384,7 +384,7 @@
       {
         "n": "3",
         "title": "Pide el borrado por correo",
-        "body": "Escribe a hola@terraliam.app desde el mismo correo de la cuenta. Indica que quieres eliminar la cuenta de Terra Liam y los datos de la familia."
+        "body": "Escribe a hola@terraliam.app desde el mismo correo de la cuenta. Indica que quieres eliminar la cuenta de TerraLiam y los datos de la familia."
       },
       {
         "n": "4",

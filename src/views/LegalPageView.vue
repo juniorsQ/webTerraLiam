@@ -60,8 +60,8 @@ async function load() {
   nav.value = home.sections.nav
   footer.value = home.sections.footer
   content.value = legal.content
-  const title = legal.content.title || 'Terra Liam'
-  document.title = `${title} — Terra Liam`
+  const title = legal.content.title || 'TerraLiam'
+  document.title = `${title} — TerraLiam`
 }
 
 onMounted(load)

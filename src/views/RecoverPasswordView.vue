@@ -63,7 +63,7 @@
       <template v-else>
         <p class="ok">{{ info }}</p>
         <a class="btn btn-lime link-btn" :href="appLoginUrl">
-          Abrir Terra Liam
+          Abrir TerraLiam
         </a>
         <p class="back">
           <router-link to="/admin/login">Entrar al CMS (web)</router-link>
@@ -120,7 +120,7 @@ const subtitle = computed(() => {
     return 'Elige una contraseña nueva para tu cuenta de adulto (mínimo 8 caracteres).'
   }
   if (phase.value === 'done') {
-    return 'Ya puedes entrar en la app Terra Liam con la contraseña nueva.'
+    return 'Ya puedes entrar en la app TerraLiam con la contraseña nueva.'
   }
   return 'Te enviamos un enlace al correo. Ábrelo en el teléfono para volver a la app, o continúa aquí.'
 })
@@ -166,7 +166,7 @@ async function onUpdate() {
   try {
     await updatePassword(password.value)
     phase.value = 'done'
-    info.value = 'Contraseña actualizada. Abriendo Terra Liam…'
+    info.value = 'Contraseña actualizada. Abriendo TerraLiam…'
     openApp(APP_LOGIN)
   } catch (err) {
     error.value = err.message ?? 'No se pudo guardar la contraseña.'
