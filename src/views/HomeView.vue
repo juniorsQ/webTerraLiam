@@ -1,6 +1,6 @@
 <template>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
-  <SiteNav :nav="sections.nav" />
+  <SiteNav :nav="sections.nav" @download="openDownload" />
   <main id="contenido">
     <IntroVideo :intro="sections.intro" />
     <SiteHero :hero="sections.hero" />
@@ -11,9 +11,10 @@
     <MiniGames :minigames="sections.minigames" />
     <Safety :safety="sections.safety" />
     <Faq :faq="sections.faq" />
-    <StoreCta :cta="sections.cta" />
+    <StoreCta :cta="sections.cta" @download="openDownload" />
   </main>
   <SiteFooter :footer="sections.footer" />
+  <DownloadModal :open="downloadOpen" @close="downloadOpen = false" />
 </template>
 
 <script setup>
@@ -32,8 +33,14 @@ import Safety from '@/components/Safety.vue'
 import Faq from '@/components/Faq.vue'
 import StoreCta from '@/components/StoreCta.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
+import DownloadModal from '@/components/DownloadModal.vue'
 
 const sections = ref(structuredClone(fallback))
+const downloadOpen = ref(false)
+
+function openDownload() {
+  downloadOpen.value = true
+}
 
 onMounted(async () => {
   document.title = 'TerraLiam — Descubre el mundo a tu alrededor'

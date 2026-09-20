@@ -10,6 +10,9 @@
       <p class="kicker">{{ cta.kicker }}</p>
       <h2>{{ cta.title }}</h2>
       <p class="body">{{ cta.body }}</p>
+      <button class="btn btn-lime apk-button" type="button" @click="emit('download')">
+        Descargar APK para Android
+      </button>
       <p class="badge">{{ cta.badge }}</p>
       <div class="stores">
         <span class="btn btn-lime disabled">{{ cta.appStore }}</span>
@@ -26,6 +29,8 @@ import HillsScene from '@/components/HillsScene.vue'
 defineProps({
   cta: { type: Object, required: true },
 })
+
+const emit = defineEmits(['download'])
 </script>
 
 <style scoped>
@@ -84,6 +89,10 @@ defineProps({
   border-radius: 999px;
   padding: 0.2rem 0.8rem;
   margin-bottom: 1.1rem;
+}
+
+.apk-button {
+  margin-bottom: 1rem;
 }
 
 .stores {

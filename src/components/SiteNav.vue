@@ -28,9 +28,9 @@
           </a>
         </template>
         <!-- Legal links live in the footer; the bar stays short. -->
-        <a class="btn btn-lime cta" :href="homeLink(nav.ctaHref)" @click="open = false">
+        <button class="btn btn-lime cta" type="button" @click="handleDownload">
           {{ nav.cta }}
-        </a>
+        </button>
       </nav>
     </div>
   </header>
@@ -44,8 +44,15 @@ defineProps({
   nav: { type: Object, required: true },
 })
 
+const emit = defineEmits(['download'])
+
 const open = ref(false)
 const route = useRoute()
+
+function handleDownload() {
+  open.value = false
+  emit('download')
+}
 
 function isRoute(href) {
   return typeof href === 'string' && href.startsWith('/') && !href.startsWith('//')
