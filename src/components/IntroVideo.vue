@@ -5,6 +5,7 @@
       <video
         class="media backdrop"
         :src="intro.videoSrc"
+        :poster="posterSrc"
         autoplay
         muted
         loop
@@ -16,7 +17,7 @@
         ref="video"
         class="media main"
         :src="intro.videoSrc"
-        :poster="intro.poster"
+        :poster="posterSrc"
         autoplay
         muted
         loop
@@ -56,13 +57,14 @@ const props = defineProps({
 })
 
 const video = ref(null)
+const posterSrc = computed(() => props.intro.poster || '/og-image.svg')
 
 const videoType = computed(() =>
   props.intro.videoSrc?.endsWith('.webm') ? 'video/webm' : 'video/mp4',
 )
 
 const posterStyle = computed(() =>
-  props.intro.poster ? { backgroundImage: `url(${props.intro.poster})` } : {},
+  { backgroundImage: `url(${posterSrc.value})` },
 )
 
 function scrollDown() {
