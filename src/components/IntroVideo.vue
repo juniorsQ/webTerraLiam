@@ -1,18 +1,7 @@
 <template>
   <section class="intro" aria-labelledby="intro-title">
     <template v-if="intro.videoSrc">
-      <!-- Blurred copy fills the widescreen gap left by the portrait video. -->
-      <video
-        class="media backdrop"
-        :src="intro.videoSrc"
-        :poster="posterSrc"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        aria-hidden="true"
-      ></video>
+      <div class="media backdrop" :style="posterStyle" aria-hidden="true"></div>
       <video
         ref="video"
         class="media main"
@@ -22,7 +11,7 @@
         muted
         loop
         playsinline
-        preload="metadata"
+        preload="auto"
         aria-hidden="true"
       ></video>
     </template>
@@ -59,10 +48,6 @@ const props = defineProps({
 const video = ref(null)
 const posterSrc = computed(() => props.intro.poster || '/og-image.svg')
 
-const videoType = computed(() =>
-  props.intro.videoSrc?.endsWith('.webm') ? 'video/webm' : 'video/mp4',
-)
-
 const posterStyle = computed(() =>
   { backgroundImage: `url(${posterSrc.value})` },
 )
@@ -74,7 +59,14 @@ function scrollDown() {
 
 onMounted(() => {
   const still = window.matchMedia('(prefers-reduced-motion: reduce)')
-  if (still.matches) video.value?.pause()
+  if (still.matches) {
+    video.value?.pause()
+    return
+  }
+
+  video.value?.play().catch(() => {
+    // The captured poster remains visible when autoplay is blocked.
+  })
 })
 </script>
 
