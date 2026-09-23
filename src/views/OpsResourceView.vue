@@ -20,7 +20,8 @@
         <article v-for="(row, index) in rows" :key="row.id || `${resource}-${index}`" class="record-card">
           <div v-for="column in columns" :key="column" class="record-field">
             <span>{{ labelColumn(column) }}</span>
-            <a v-if="isImageColumn(column, row[column])" class="media-cell" :href="row[column]" target="_blank" rel="noreferrer">
+            <video v-if="isVideoColumn(column, row[column])" class="video-cell" :src="row[column]" :poster="row.poster || undefined" controls playsinline preload="metadata" />
+            <a v-else-if="isImageColumn(column, row[column])" class="media-cell" :href="row[column]" target="_blank" rel="noreferrer">
               <img :src="row[column]" :alt="resourceLabel" loading="lazy" />
               Ver imagen
             </a>
@@ -40,7 +41,8 @@
           <tbody>
             <tr v-for="(row, index) in rows" :key="`table-${row.id || index}`">
               <td v-for="column in columns" :key="column">
-                <a v-if="isImageColumn(column, row[column])" class="media-cell" :href="row[column]" target="_blank" rel="noreferrer">
+                <video v-if="isVideoColumn(column, row[column])" class="video-cell" :src="row[column]" :poster="row.poster || undefined" controls playsinline preload="metadata" />
+                <a v-else-if="isImageColumn(column, row[column])" class="media-cell" :href="row[column]" target="_blank" rel="noreferrer">
                   <img :src="row[column]" :alt="resourceLabel" loading="lazy" />
                   Ver imagen
                 </a>
@@ -63,7 +65,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { loadOpsTable } from '@/ops/opsApi'
 import OpsShell from '@/ops/OpsShell.vue'
-import { formatCell, formatDateTime, isDateColumn, isImageColumn, labelColumn, opsResources } from '@/ops/opsUi'
+import { formatCell, formatDateTime, isDateColumn, isImageColumn, isVideoColumn, labelColumn, opsResources } from '@/ops/opsUi'
 import { useOpsSession } from '@/ops/useOpsSession'
 
 const props = defineProps({ resource: { type: String, required: true } })
@@ -124,6 +126,7 @@ td { color: #c5cee1; font-size: .78rem; max-width: 280px; overflow-wrap: anywher
 .loading-state { color: var(--ops-muted); }
 .media-cell { display: inline-flex; align-items: center; gap: .55rem; color: var(--ops-cyan); text-decoration: none; }
 .media-cell img { width: 42px; height: 42px; border: 1px solid var(--ops-line); border-radius: 7px; object-fit: cover; background: #0d1527; }
+.video-cell { width: min(100%, 280px); aspect-ratio: 1; border-radius: 8px; background: #0d1527; }
 @media (max-width: 900px) {
   .resource-head { align-items: flex-start; flex-direction: column; }
   .table-shell { display: none; }

@@ -136,11 +136,34 @@
         </article>
       </section>
 
+      <section class="character-section">
+        <header class="panel-head">
+          <div><span class="panel-index">06</span><h3>Videos generados</h3></div>
+          <router-link to="/ops/videos" class="panel-link">Ver todos ↗</router-link>
+        </header>
+        <div v-if="generatedVideos.length" class="video-grid">
+          <article v-for="item in generatedVideos" :key="item.video" class="video-card">
+            <video
+              :src="item.video"
+              :poster="item.poster || undefined"
+              controls
+              playsinline
+              preload="metadata"
+            />
+            <div>
+              <strong>{{ item.name }}</strong>
+              <small>{{ item.world }} · {{ item.creator }}</small>
+            </div>
+          </article>
+        </div>
+        <p v-else class="empty-copy">No hay videos generados.</p>
+      </section>
+
       <OpsMap :characters="mapCharacters" />
 
       <section class="family-section">
         <header class="panel-head">
-          <div><span class="panel-index">06</span><h3>Creador, mundo y niños</h3></div>
+          <div><span class="panel-index">07</span><h3>Creador, mundo y niños</h3></div>
           <span class="panel-status">{{ families.length }} familias</span>
         </header>
         <div class="family-grid">
@@ -171,7 +194,7 @@
 
       <section class="character-section">
         <header class="panel-head">
-          <div><span class="panel-index">07</span><h3>Personajes más capturados</h3></div>
+          <div><span class="panel-index">08</span><h3>Personajes más capturados</h3></div>
           <router-link to="/ops/pois" class="panel-link">Ver todos ↗</router-link>
         </header>
         <div class="character-grid">
@@ -193,7 +216,7 @@
       <section class="dashboard-grid">
         <article class="panel activity-panel">
           <header class="panel-head">
-            <div><span class="panel-index">08</span><h3>Capturas recientes</h3></div>
+            <div><span class="panel-index">09</span><h3>Capturas recientes</h3></div>
             <router-link to="/ops/captures" class="panel-link">Historial ↗</router-link>
           </header>
           <div class="activity-list">
@@ -210,7 +233,7 @@
         </article>
         <article class="panel">
           <header class="panel-head">
-            <div><span class="panel-index">09</span><h3>Mundos recientes</h3></div>
+            <div><span class="panel-index">10</span><h3>Mundos recientes</h3></div>
             <router-link to="/ops/worlds" class="panel-link">Ver todos ↗</router-link>
           </header>
           <div class="world-list">
@@ -232,7 +255,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { loadOpsDashboard, loadProviderCredits } from '@/ops/opsApi'
+import { loadGeneratedVideos, loadOpsDashboard, loadProviderCredits } from '@/ops/opsApi'
 import { useOpsSession } from '@/ops/useOpsSession'
 import OpsMap from '@/ops/OpsMap.vue'
 import OpsShell from '@/ops/OpsShell.vue'
@@ -242,6 +265,7 @@ const router = useRouter()
 const { refresh, session, hasSupabase, isPlatformAdmin } = useOpsSession()
 const dashboard = ref({})
 const credits = ref({})
+const generatedVideos = ref([])
 const ready = ref(false)
 const loading = ref(false)
 const error = ref('')
@@ -335,6 +359,11 @@ async function loadDashboard() {
     } catch {
       credits.value = {}
     }
+    try {
+      generatedVideos.value = await loadGeneratedVideos() || []
+    } catch {
+      generatedVideos.value = []
+    }
   } catch (err) {
     error.value = err.message ?? 'No se pudo sincronizar el dashboard.'
   } finally {
@@ -382,7 +411,11 @@ h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
 .provider-grid { grid-template-columns: 1fr 1fr; margin-bottom: 1.25rem; }
 .chart-grid { grid-template-columns: 1.1fr .8fr .9fr; margin-bottom: 1.25rem; }
 .family-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.character-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.character-grid, .video-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.video-card { display: grid; gap: .55rem; padding: .75rem; border: 1px solid var(--ops-line); border-radius: 10px; background: #10182b; }
+.video-card video { width: 100%; aspect-ratio: 1; border-radius: 10px; object-fit: cover; background: #0d1527; }
+.video-card small, .empty-copy { color: var(--ops-muted); font-size: .68rem; }
+.empty-copy { padding: .4rem 0 0; }
 .dashboard-grid { grid-template-columns: 1.2fr .8fr; }
 .metric-card, .panel, .family-section, .character-section { min-width: 0; padding: clamp(.85rem, 2vw, 1.2rem); border: 1px solid var(--ops-line); border-radius: 10px; background: var(--ops-panel); }
 .metric-card { border-top: 2px solid var(--metric-color); }
@@ -447,7 +480,7 @@ h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
 .loading-state { color: var(--ops-muted); }
 @media (max-width: 1200px) {
   .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .chart-grid, .character-grid, .ops-grid { grid-template-columns: 1fr 1fr; }
+  .chart-grid, .character-grid, .video-grid, .ops-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 900px) {
   .topbar, .command-hero, .panel-head { align-items: flex-start; flex-direction: column; }
@@ -458,7 +491,7 @@ h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
   .week-chart { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
-  .metric-grid, .provider-grid, .chart-grid, .family-grid, .character-grid, .dashboard-grid, .ops-grid { grid-template-columns: 1fr; }
+  .metric-grid, .provider-grid, .chart-grid, .family-grid, .character-grid, .video-grid, .dashboard-grid, .ops-grid { grid-template-columns: 1fr; }
   .activity-row, .world-row { grid-template-columns: 32px minmax(0, 1fr); }
   .activity-row time, .world-state { grid-column: 2; }
 }

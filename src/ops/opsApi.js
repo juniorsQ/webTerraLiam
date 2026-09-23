@@ -12,7 +12,12 @@ export function loadOpsDashboard() {
 }
 
 export function loadOpsTable(resource, limit = 50) {
+  if (resource === 'videos') return call('ops_generated_videos')
   return call('ops_table', { p_resource: resource, p_limit: limit })
+}
+
+export function loadGeneratedVideos() {
+  return call('ops_generated_videos')
 }
 
 export async function loadProviderCredits() {

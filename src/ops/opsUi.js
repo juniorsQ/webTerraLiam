@@ -4,6 +4,7 @@ export const opsResources = [
   { key: 'worlds', label: 'Mundos', mark: '◎', group: 'Operación' },
   { key: 'pois', label: 'Personajes', mark: '✦', group: 'Operación' },
   { key: 'captures', label: 'Capturas', mark: '▣', group: 'Operación' },
+  { key: 'videos', label: 'Videos', mark: '▶', group: 'Economía' },
   { key: 'provider-jobs', label: 'Jobs API', mark: '▷', group: 'Economía' },
   { key: 'prize-grants', label: 'Premios', mark: '◇', group: 'Economía' },
   { key: 'progress', label: 'Progreso', mark: '▲', group: 'Economía' },
@@ -18,6 +19,11 @@ export const opsNavGroups = ['Operación', 'Economía', 'Sistema']
 
 export const columnLabels = {
   nombre: 'Nombre',
+  name: 'Personaje',
+  world: 'Mundo',
+  creator: 'Agregado por',
+  video: 'Video',
+  poster: 'Foto',
   avatar_url: 'Foto',
   created_at: 'Creado',
   mundos_creados: 'Mundos',
@@ -167,8 +173,15 @@ export function formatCell(column, value) {
   return String(value)
 }
 
+export function isVideoColumn(column, value) {
+  return typeof value === 'string' && /^https?:\/\//i.test(value) && (
+    /\.mp4(\?|$)/i.test(value) || /fal\.media/i.test(value) || /(^|_)video(_|$)|anim_video/i.test(column)
+  )
+}
+
 export function isImageColumn(column, value) {
-  return typeof value === 'string' && /^https?:\/\//i.test(value) && /(image|photo|avatar|cutout|stylized|video|url|imagen)/i.test(column)
+  if (isVideoColumn(column, value)) return false
+  return typeof value === 'string' && /^https?:\/\//i.test(value) && /(image|photo|avatar|cutout|stylized|url|imagen|poster)/i.test(column)
 }
 
 export function isDateColumn(column, value) {
