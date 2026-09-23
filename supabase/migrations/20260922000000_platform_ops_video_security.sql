@@ -47,6 +47,7 @@ as $$
   select coalesce((auth.jwt() -> 'app_metadata' ->> 'platform_admin')::boolean, false);
 $$;
 
+revoke all on function public.is_platform_admin() from public;
 grant execute on function public.is_platform_admin() to authenticated;
 
 alter table public.platform_settings enable row level security;
@@ -102,6 +103,8 @@ begin
     raise exception using errcode = '42501', message = 'No tienes permisos para este mundo.';
   end if;
 
+  perform pg_advisory_xact_lock(hashtextextended(p_world_id::text, 0));
+
   if not v_world.video_rewards_enabled then
     raise exception 'Los premios de video están desactivados en este mundo.';
   end if;
@@ -127,13 +130,13 @@ begin
   select * into v_grant from public.prize_grant_requests
   where world_id = p_world_id and user_id = auth.uid() and status = 'granted' and used_at is null
   order by created_at asc limit 1 for update;
-  if not found and (v_progress.user_id is null or v_progress.prize_credits < 1) then
+  if not found and coalesce(v_progress.prize_credits, 0) < 1 then
     raise exception 'No tienes créditos de video disponibles.';
   end if;
 
   if found then
     update public.prize_grant_requests set used_at = now() where id = v_grant.id;
-  elsif v_progress.prize_credits > 0 then
+  elsif coalesce(v_progress.prize_credits, 0) > 0 then
     update public.player_progress set prize_credits = prize_credits - 1, updated_at = now()
     where user_id = auth.uid() and world_id = p_world_id;
   end if;

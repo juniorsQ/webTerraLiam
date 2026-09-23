@@ -71,6 +71,25 @@ O con la CLI del repo:
 supabase db push
 ```
 
+### Mantener el esquema y crear respaldo
+
+Las migraciones en `supabase/migrations/` son la fuente de verdad del esquema. No edites una migracion que ya se haya aplicado; crea otra con un timestamp posterior. Antes de aplicar cambios en una base compartida:
+
+1. Ejecuta `scripts/backup-supabase.ps1` desde PowerShell. Genera un respaldo separado del esquema y los datos del esquema `public` en `backups/`.
+2. El script requiere `pg_dump` (PostgreSQL Client Tools) y solicita la contrasena directamente en la terminal. No guardes contrasenas, `service_role` keys ni URLs con credenciales en el repositorio.
+3. Revisa el SQL y aplica las migraciones en orden con `supabase db push` o desde el SQL Editor.
+4. Ejecuta el build y verifica las tablas y funciones nuevas en Supabase.
+
+La migracion `20260922000000_platform_ops_video_security.sql` fue aplicada manualmente en el proyecto Supabase `terra_liam` y su version `20260922000000` quedo registrada en `supabase_migrations.schema_migrations`. No la vuelvas a ejecutar manualmente.
+
+Ejemplo:
+
+```powershell
+.\scripts\backup-supabase.ps1
+```
+
+El respaldo es local y debe quedar fuera de Git. La copia administrada de Supabase requiere un plan que incluya backups.
+
 El seed trae el copy en español LATAM de la landing y las páginas legales (Google Play). El correo de contacto es un placeholder (`hola@terraliam.app`): cámbialo en el CMS.
 
 ## Crear el usuario admin
