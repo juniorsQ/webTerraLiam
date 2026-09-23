@@ -6,6 +6,10 @@ import AdminHomeView from '@/views/AdminHomeView.vue'
 import AdminSectionView from '@/views/AdminSectionView.vue'
 import AdminLegalView from '@/views/AdminLegalView.vue'
 import RecoverPasswordView from '@/views/RecoverPasswordView.vue'
+import OpsLoginView from '@/views/OpsLoginView.vue'
+import OpsDashboardView from '@/views/OpsDashboardView.vue'
+import OpsResourceView from '@/views/OpsResourceView.vue'
+import { supabase } from '@/lib/supabase'
 
 const legal = (path, name, slug) => ({
   path,
@@ -35,6 +39,9 @@ const router = createRouter({
       component: RecoverPasswordView,
     },
     { path: '/admin', name: 'admin', component: AdminHomeView },
+    { path: '/ops/login', name: 'ops-login', component: OpsLoginView },
+    { path: '/ops', name: 'ops-dashboard', component: OpsDashboardView, meta: { ops: true } },
+    { path: '/ops/:resource', name: 'ops-resource', component: OpsResourceView, props: true, meta: { ops: true } },
     {
       path: '/admin/secciones/:sectionKey',
       name: 'admin-section',
@@ -48,6 +55,14 @@ const router = createRouter({
       props: true,
     },
   ],
+})
+
+router.beforeEach(async (to) => {
+  if (!to.meta.ops || to.path === '/ops/login') return true
+  if (!supabase) return '/ops/login'
+  const { data } = await supabase.auth.getSession()
+  if (data.session?.user?.app_metadata?.platform_admin === true) return true
+  return '/ops/login'
 })
 
 export default router
