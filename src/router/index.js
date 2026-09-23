@@ -9,6 +9,7 @@ import RecoverPasswordView from '@/views/RecoverPasswordView.vue'
 import OpsLoginView from '@/views/OpsLoginView.vue'
 import OpsDashboardView from '@/views/OpsDashboardView.vue'
 import OpsResourceView from '@/views/OpsResourceView.vue'
+import OpsSettingsView from '@/views/OpsSettingsView.vue'
 import { supabase } from '@/lib/supabase'
 
 const legal = (path, name, slug) => ({
@@ -41,6 +42,7 @@ const router = createRouter({
     { path: '/admin', name: 'admin', component: AdminHomeView },
     { path: '/ops/login', name: 'ops-login', component: OpsLoginView },
     { path: '/ops', name: 'ops-dashboard', component: OpsDashboardView, meta: { ops: true } },
+    { path: '/ops/settings', name: 'ops-settings', component: OpsSettingsView, meta: { ops: true } },
     { path: '/ops/:resource', name: 'ops-resource', component: OpsResourceView, props: true, meta: { ops: true } },
     {
       path: '/admin/secciones/:sectionKey',

@@ -7,8 +7,9 @@
       </div>
       <span>{{ characters.length }} ubicaciones</span>
     </header>
+    <p v-if="mapError" class="map-error">{{ mapError }}</p>
     <div class="map-layout">
-      <div ref="mapEl" class="map-canvas" role="application" aria-label="Mapa de personajes de TerraLiam" />
+      <div ref="mapEl" class="map-canvas" role="application" aria-label="Mapa de Google de personajes de TerraLiam" />
       <aside v-if="selected" class="map-detail">
         <img v-if="selected.image" :src="selected.image" :alt="selected.name" />
         <div v-else class="detail-fallback">{{ initials(selected.name) }}</div>
@@ -32,18 +33,18 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
 import { formatNumber, initials, labelRarity } from '@/ops/opsUi'
 
 const props = defineProps({
   characters: { type: Array, default: () => [] },
 })
 
+const mapsKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
 const mapEl = ref(null)
 const selected = ref(null)
+const mapError = ref('')
 let map
-let layer
+const markers = []
 
 const capturers = computed(() => {
   const names = selected.value?.captured_by || []
@@ -54,50 +55,92 @@ const googleMapsUrl = computed(() => {
   if (!item) return '#'
   return `https://www.google.com/maps/search/?api=1&query=${item.lat},${item.lng}`
 })
+const points = computed(() => props.characters.filter((item) => Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lng))))
 
-onMounted(() => {
-  if (!mapEl.value) return
-  map = L.map(mapEl.value, { scrollWheelZoom: false, zoomControl: true })
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO',
-    maxZoom: 19,
-  }).addTo(map)
-  renderMarkers()
+onMounted(async () => {
+  if (!mapsKey) {
+    mapError.value = 'Falta VITE_GOOGLE_MAPS_API_KEY en .env.local. Activa Maps JavaScript API en Google Cloud.'
+    return
+  }
+  try {
+    await loadGoogleMaps(mapsKey)
+    if (!mapEl.value || !window.google?.maps) return
+    map = new window.google.maps.Map(mapEl.value, {
+      center: { lat: 10.18, lng: -66.9 },
+      zoom: 12,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+      gestureHandling: 'cooperative',
+      styles: mapStyles,
+    })
+    renderMarkers()
+  } catch (err) {
+    mapError.value = err.message ?? 'No se pudo cargar Google Maps. Activa Maps JavaScript API y restringe la clave por HTTP referrer.'
+  }
 })
 
 onBeforeUnmount(() => {
-  map?.remove()
+  clearMarkers()
+  map = null
 })
 
-watch(() => props.characters, () => renderMarkers(), { deep: true })
+watch(points, () => renderMarkers(), { deep: true })
 
 function renderMarkers() {
-  if (!map) return
-  layer?.remove()
-  layer = L.layerGroup().addTo(map)
-  const points = props.characters.filter((item) => Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lng)))
-  const bounds = []
-  for (const item of points) {
-    const latlng = [Number(item.lat), Number(item.lng)]
-    bounds.push(latlng)
-    const marker = L.marker(latlng, {
-      icon: L.divIcon({
-        className: 'ops-pin',
-        html: item.image
-          ? `<img src="${item.image}" alt="">`
-          : `<span>${initials(item.name)}</span>`,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
-      }),
+  if (!map || !window.google?.maps) return
+  clearMarkers()
+  const bounds = new window.google.maps.LatLngBounds()
+  for (const item of points.value) {
+    const position = { lat: Number(item.lat), lng: Number(item.lng) }
+    const marker = new window.google.maps.Marker({
+      map,
+      position,
       title: item.name,
+      icon: item.image
+        ? { url: item.image, scaledSize: new window.google.maps.Size(36, 36), anchor: new window.google.maps.Point(18, 18) }
+        : undefined,
     })
-    marker.on('click', () => { selected.value = item })
-    marker.addTo(layer)
+    marker.addListener('click', () => { selected.value = item })
+    markers.push(marker)
+    bounds.extend(position)
   }
-  if (bounds.length) map.fitBounds(bounds, { padding: [28, 28], maxZoom: 15 })
-  else map.setView([10.18, -66.9], 12)
-  if (!selected.value && points[0]) selected.value = points[0]
+  if (points.value.length) map.fitBounds(bounds, 36)
+  if (!selected.value && points.value[0]) selected.value = points.value[0]
 }
+
+function clearMarkers() {
+  for (const marker of markers) marker.setMap(null)
+  markers.length = 0
+}
+
+function loadGoogleMaps(key) {
+  if (window.google?.maps) return Promise.resolve()
+  if (window.__opsGoogleMaps) return window.__opsGoogleMaps
+  window.__opsGoogleMaps = new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}`
+    script.async = true
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('Google Maps no cargó. Revisa la clave y Maps JavaScript API.'))
+    document.head.appendChild(script)
+  })
+  return window.__opsGoogleMaps
+}
+
+const mapStyles = [
+  { elementType: 'geometry', stylers: [{ color: '#10182b' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#10182b' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#8e9bb7' }] },
+  { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#2b364f' }] },
+  { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#8e9bb7' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#152235' }] },
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#1c2740' }] },
+  { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#0b1020' }] },
+  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#243352' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0b1020' }] },
+]
 </script>
 
 <style scoped>
@@ -119,23 +162,9 @@ dl div { display: grid; gap: .15rem; }
 dd { margin: 0; font-size: .82rem; }
 .maps-link { margin-top: .4rem; color: var(--ops-cyan); font-size: .75rem; text-decoration: none; }
 .map-empty { display: grid; place-items: center; min-height: 160px; padding: 1rem; border: 1px dashed var(--ops-line); border-radius: 10px; text-align: center; }
+.map-error { margin: 0 0 .85rem; padding: .7rem .85rem; border: 1px solid rgba(255,124,120,.35); border-radius: 8px; color: var(--ops-coral); background: rgba(255,124,120,.08); font-size: .78rem; }
 @media (max-width: 900px) {
   .map-layout { grid-template-columns: 1fr; }
   .map-canvas { min-height: 280px; height: 58vw; }
 }
-</style>
-
-<style>
-.ops-pin { display: grid; place-items: center; }
-.ops-pin img, .ops-pin span {
-  width: 36px;
-  height: 36px;
-  border: 2px solid #56d7ed;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #121a2d;
-  box-shadow: 0 0 0 3px rgba(86,215,237,.18);
-}
-.ops-pin span { display: grid; place-items: center; color: #56d7ed; font-size: 10px; font-weight: 800; }
-.leaflet-container { background: #0d1527; font-family: inherit; }
 </style>

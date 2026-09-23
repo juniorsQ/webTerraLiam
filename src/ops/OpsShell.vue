@@ -22,16 +22,22 @@
         <router-link class="side-link" :class="{ active: current === 'overview' }" to="/ops" @click="open = false">
           <span class="nav-mark">+</span>Overview
         </router-link>
-        <router-link
-          v-for="resource in resources"
-          :key="resource.key"
-          class="side-link"
-          :class="{ active: current === resource.key }"
-          :to="`/ops/${resource.key}`"
-          @click="open = false"
-        >
-          <span class="nav-mark">{{ resource.mark }}</span>{{ resource.label }}
+        <router-link class="side-link" :class="{ active: current === 'settings' }" to="/ops/settings" @click="open = false">
+          <span class="nav-mark">⚙</span>Ajustes
         </router-link>
+        <template v-for="group in groups" :key="group">
+          <div class="side-label nested">{{ group }}</div>
+          <router-link
+            v-for="resource in resources.filter((item) => item.group === group)"
+            :key="resource.key"
+            class="side-link"
+            :class="{ active: current === resource.key }"
+            :to="`/ops/${resource.key}`"
+            @click="open = false"
+          >
+            <span class="nav-mark">{{ resource.mark }}</span>{{ resource.label }}
+          </router-link>
+        </template>
       </nav>
       <div class="sidebar-spacer" />
       <div class="operator-card"><span class="live-dot" /><div><strong>Platform admin</strong><small>Sesión protegida</small></div></div>
@@ -47,7 +53,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { opsResources } from '@/ops/opsUi'
+import { opsNavGroups, opsResources } from '@/ops/opsUi'
 import { useOpsSession } from '@/ops/useOpsSession'
 
 const route = useRoute()
@@ -55,7 +61,12 @@ const router = useRouter()
 const { signOut } = useOpsSession()
 const open = ref(false)
 const resources = opsResources
-const current = computed(() => (route.name === 'ops-dashboard' ? 'overview' : String(route.params.resource || '')))
+const groups = opsNavGroups
+const current = computed(() => {
+  if (route.name === 'ops-dashboard') return 'overview'
+  if (route.name === 'ops-settings') return 'settings'
+  return String(route.params.resource || '')
+})
 
 watch(() => route.fullPath, () => { open.value = false })
 
@@ -84,13 +95,14 @@ async function onSignOut() {
   font-family: var(--font-body);
 }
 .mobile-bar { display: none; }
-.ops-sidebar { width: 244px; display: flex; flex-direction: column; padding: 1.6rem 1rem; border-right: 1px solid var(--ops-line); background: rgba(8,12,25,.94); }
+.ops-sidebar { width: 244px; display: flex; flex-direction: column; padding: 1.6rem 1rem; border-right: 1px solid var(--ops-line); background: rgba(8,12,25,.94); overflow: auto; }
 .brand { display: flex; align-items: center; gap: .7rem; padding: 0 .55rem 2.4rem; color: var(--ops-text); text-decoration: none; }
 .brand img { width: 38px; height: 38px; border-radius: 12px; object-fit: cover; }
 .brand span { display: grid; gap: .12rem; }
 .brand strong { font-family: var(--font-display); font-size: 1.15rem; }
 .brand small, .operator-card small { color: var(--ops-muted); font-size: .62rem; letter-spacing: .13em; }
 .side-label { padding: 0 .65rem .65rem; color: var(--ops-muted); font-size: .64rem; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
+.side-label.nested { padding: .85rem .65rem .4rem; }
 .side-nav { display: grid; gap: .2rem; }
 .side-link { display: flex; align-items: center; gap: .7rem; min-height: 42px; padding: .55rem .65rem; border-radius: 9px; color: var(--ops-muted); font-size: .9rem; text-decoration: none; }
 .side-link:hover, .side-link.active { background: var(--ops-panel-2); color: var(--ops-text); text-decoration: none; }

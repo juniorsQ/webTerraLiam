@@ -73,7 +73,19 @@
           <div class="economy-meta">
             <span>{{ formatNumber(recraft.cutouts) }} recortes</span>
             <span>{{ formatNumber(recraft.stylized) }} estilizados</span>
+            <span>Usados {{ formatNumber(recraft.usedCredits) }} · umbral {{ formatNumber(recraft.alert) }}</span>
           </div>
+        </article>
+      </section>
+
+      <section class="ops-grid" aria-label="Recursos de control">
+        <article v-for="item in controlCards" :key="item.to" class="panel control-card">
+          <header class="panel-head">
+            <div><span class="panel-index">{{ item.index }}</span><h3>{{ item.title }}</h3></div>
+            <router-link :to="item.to" class="panel-link">{{ item.link }} ↗</router-link>
+          </header>
+          <strong>{{ item.value }}</strong>
+          <span>{{ item.detail }}</span>
         </article>
       </section>
 
@@ -224,7 +236,7 @@ import { loadOpsDashboard, loadProviderCredits } from '@/ops/opsApi'
 import { useOpsSession } from '@/ops/useOpsSession'
 import OpsMap from '@/ops/OpsMap.vue'
 import OpsShell from '@/ops/OpsShell.vue'
-import { formatCurrency, formatNumber, formatRelative, formatWeekLabel, initials, labelRarity, labelVisibility } from '@/ops/opsUi'
+import { formatBytes, formatCurrency, formatNumber, formatRelative, formatWeekLabel, initials, labelRarity, labelVisibility } from '@/ops/opsUi'
 
 const router = useRouter()
 const { refresh, session, hasSupabase, isPlatformAdmin } = useOpsSession()
@@ -278,10 +290,28 @@ const recraft = computed(() => {
   return {
     cutouts: Number(dashboard.value.providers?.recraft?.cutouts || 0),
     stylized: Number(dashboard.value.providers?.recraft?.stylized || 0),
+    usedCredits: Number(dashboard.value.providers?.recraft?.used_credits || 0),
+    alert: Number(dashboard.value.providers?.recraft?.alert_threshold || 200),
     configured,
     availableLabel: Number.isFinite(available) ? formatNumber(available) : '—',
     status: Number.isFinite(available) ? 'Saldo vivo' : configured ? 'Clave activa' : 'Sin clave',
   }
+})
+const controlCards = computed(() => {
+  const d = dashboard.value
+  return [
+    { index: '10', title: 'Auth', to: '/ops/users', link: 'Cuentas', value: formatNumber(d.auth?.accounts ?? d.users), detail: `${formatNumber(d.auth?.signed_7d)} logins / 7d · ${formatNumber(d.auth?.orphans)} huérfanas` },
+    { index: '11', title: 'Storage', to: '/ops/storage', link: 'Archivos', value: formatBytes(d.storage?.bytes), detail: `${formatNumber(d.storage?.files)} archivos en ${d.storage?.bucket || 'poi-media'}` },
+    { index: '12', title: 'Google Maps', to: '/ops', link: 'Mapa', value: formatNumber(d.maps?.pins), detail: `${formatNumber(d.maps?.worlds)} mundos con GPS. Billing en GCP.` },
+    { index: '13', title: 'Tokens', to: '/ops/pair-tokens', link: 'Emparejar', value: formatNumber(d.pair_tokens?.active), detail: `${formatNumber(d.pair_tokens?.used)} usados · ${formatNumber(d.pair_tokens?.expired)} vencidos` },
+    { index: '14', title: 'Jobs API', to: '/ops/provider-jobs', link: 'Ledger', value: formatNumber((d.providers?.fal?.jobs || 0) + (d.providers?.recraft?.jobs || 0)), detail: `${formatNumber(d.providers?.fal?.jobs)} Fal · ${formatNumber(d.providers?.recraft?.jobs)} Recraft` },
+    { index: '15', title: 'Progreso', to: '/ops/progress', link: 'Ranking', value: formatNumber(d.progress?.players), detail: `${formatNumber(d.progress?.rows)} filas de puntos` },
+    { index: '16', title: 'Premios', to: '/ops/prize-grants', link: 'Cola', value: formatNumber(d.prizes?.pending ?? d.pending_prizes), detail: `${formatNumber(d.prizes?.total)} solicitudes` },
+    { index: '17', title: 'Reportes', to: '/ops/reports', link: 'Moderar', value: formatNumber(d.reports?.open), detail: `${formatNumber(d.reports?.total)} acumulados` },
+    { index: '18', title: 'Señales', to: '/ops/analytics', link: 'Embudo', value: formatNumber(d.analytics?.events), detail: 'analytics_events de la app' },
+    { index: '19', title: 'Misiones', to: '/ops/missions', link: 'Misiones', value: formatNumber(d.missions?.missions), detail: `${formatNumber(d.missions?.steps)} pasos · ${formatNumber(d.missions?.progress)} avances` },
+    { index: '20', title: 'Ajustes', to: '/ops/settings', link: 'Editar', value: formatCurrency(d.video_policy?.monthly_budget_usd || d.providers?.fal?.monthly_budget_usd || 1.12), detail: `Tope Fal · ${formatNumber(d.video_policy?.max_videos_per_world_per_month || 4)} videos/mundo` },
+  ]
 })
 
 onMounted(async () => {
@@ -344,7 +374,10 @@ h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
 .signal-ring { display: grid; place-items: center; width: 104px; height: 104px; border: 1px solid var(--ops-cyan); border-radius: 50%; }
 .signal-ring span { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0; }
 .signal-ring small { margin-top: -1.6rem; font-size: .52rem; }
-.metric-grid, .provider-grid, .chart-grid, .family-grid, .character-grid, .dashboard-grid { display: grid; gap: .75rem; }
+.metric-grid, .provider-grid, .chart-grid, .family-grid, .character-grid, .dashboard-grid, .ops-grid { display: grid; gap: .75rem; }
+.ops-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 1.25rem; }
+.control-card strong { display: block; margin: .15rem 0 .35rem; font-family: var(--font-display); font-size: 1.35rem; }
+.control-card > span { color: var(--ops-muted); font-size: .68rem; }
 .metric-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: 1.25rem; }
 .provider-grid { grid-template-columns: 1fr 1fr; margin-bottom: 1.25rem; }
 .chart-grid { grid-template-columns: 1.1fr .8fr .9fr; margin-bottom: 1.25rem; }
@@ -414,7 +447,7 @@ h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
 .loading-state { color: var(--ops-muted); }
 @media (max-width: 1200px) {
   .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .chart-grid, .character-grid { grid-template-columns: 1fr 1fr; }
+  .chart-grid, .character-grid, .ops-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 900px) {
   .topbar, .command-hero, .panel-head { align-items: flex-start; flex-direction: column; }
@@ -425,7 +458,7 @@ h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
   .week-chart { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
-  .metric-grid, .provider-grid, .chart-grid, .family-grid, .character-grid, .dashboard-grid { grid-template-columns: 1fr; }
+  .metric-grid, .provider-grid, .chart-grid, .family-grid, .character-grid, .dashboard-grid, .ops-grid { grid-template-columns: 1fr; }
   .activity-row, .world-row { grid-template-columns: 32px minmax(0, 1fr); }
   .activity-row time, .world-state { grid-column: 2; }
 }

@@ -1,12 +1,20 @@
 export const opsResources = [
-  { key: 'users', label: 'Cuentas', mark: '◈' },
-  { key: 'explorers', label: 'Niños', mark: '△' },
-  { key: 'worlds', label: 'Mundos', mark: '◎' },
-  { key: 'pois', label: 'Personajes', mark: '✦' },
-  { key: 'captures', label: 'Capturas', mark: '▣' },
-  { key: 'video-spend', label: 'Video spend', mark: '▷' },
-  { key: 'prize-grants', label: 'Premios', mark: '◇' },
+  { key: 'users', label: 'Cuentas', mark: '◈', group: 'Operación' },
+  { key: 'explorers', label: 'Niños', mark: '△', group: 'Operación' },
+  { key: 'worlds', label: 'Mundos', mark: '◎', group: 'Operación' },
+  { key: 'pois', label: 'Personajes', mark: '✦', group: 'Operación' },
+  { key: 'captures', label: 'Capturas', mark: '▣', group: 'Operación' },
+  { key: 'provider-jobs', label: 'Jobs API', mark: '▷', group: 'Economía' },
+  { key: 'prize-grants', label: 'Premios', mark: '◇', group: 'Economía' },
+  { key: 'progress', label: 'Progreso', mark: '▲', group: 'Economía' },
+  { key: 'storage', label: 'Storage', mark: '▤', group: 'Sistema' },
+  { key: 'pair-tokens', label: 'Tokens', mark: '⚿', group: 'Sistema' },
+  { key: 'missions', label: 'Misiones', mark: '⚑', group: 'Sistema' },
+  { key: 'reports', label: 'Reportes', mark: '⚠', group: 'Sistema' },
+  { key: 'analytics', label: 'Señales', mark: '◉', group: 'Sistema' },
 ]
+
+export const opsNavGroups = ['Operación', 'Economía', 'Sistema']
 
 export const columnLabels = {
   nombre: 'Nombre',
@@ -47,6 +55,23 @@ export const columnLabels = {
   nivel: 'Nivel',
   puntos: 'Puntos',
   used_at: 'Usado',
+  correo: 'Correo',
+  ultimo_acceso: 'Último acceso',
+  proveedor: 'Proveedor',
+  tipo: 'Tipo',
+  creditos: 'Créditos',
+  origen: 'Origen',
+  archivo: 'Archivo',
+  bytes: 'Tamaño',
+  expires_at: 'Vence',
+  creditos_premio: 'Créditos premio',
+  mision: 'Misión',
+  activa: 'Activa',
+  pasos: 'Pasos',
+  reportado_por: 'Reportado por',
+  motivo: 'Motivo',
+  evento: 'Evento',
+  cuenta: 'Cuenta',
 }
 
 const rarityLabels = {
@@ -69,6 +94,11 @@ const statusLabels = {
   completed: 'Completado',
   failed: 'Fallido',
   cancelled: 'Cancelado',
+  active: 'Activo',
+  used: 'Usado',
+  expired: 'Vencido',
+  open: 'Abierto',
+  new: 'Nuevo',
 }
 
 export function labelColumn(column) {
@@ -89,6 +119,14 @@ export function formatNumber(value) {
 
 export function formatCurrency(value) {
   return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'USD' }).format(Number(value || 0))
+}
+
+export function formatBytes(value) {
+  const bytes = Number(value || 0)
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`
 }
 
 export function formatDateTime(value) {
@@ -124,6 +162,7 @@ export function formatCell(column, value) {
   if (column === 'visibilidad') return labelVisibility(value)
   if (column === 'estado') return statusLabels[String(value).toLowerCase()] ?? value
   if (column === 'costo_usd') return formatCurrency(value)
+  if (column === 'bytes') return formatBytes(value)
   if (typeof value === 'object') return Object.entries(value).map(([key, item]) => `${labelColumn(key)}: ${item}`).join(' · ')
   return String(value)
 }
@@ -133,5 +172,5 @@ export function isImageColumn(column, value) {
 }
 
 export function isDateColumn(column, value) {
-  return typeof value === 'string' && /(created_at|captured_at|completed_at|updated_at|used_at)/i.test(column) && !Number.isNaN(Date.parse(value))
+  return typeof value === 'string' && /(created_at|captured_at|completed_at|updated_at|used_at|ultimo_acceso|expires_at)/i.test(column) && !Number.isNaN(Date.parse(value))
 }

@@ -21,3 +21,7 @@ export async function loadProviderCredits() {
   if (error) throw error
   return data
 }
+
+export function saveOpsSettings(key, value) {
+  return call('ops_update_settings', { p_key: key, p_value: value })
+}
