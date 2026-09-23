@@ -14,3 +14,10 @@ export function loadOpsDashboard() {
 export function loadOpsTable(resource, limit = 50) {
   return call('ops_table', { p_resource: resource, p_limit: limit })
 }
+
+export async function loadProviderCredits() {
+  if (!supabase) throw new Error('Supabase no está configurado.')
+  const { data, error } = await supabase.functions.invoke('ops-provider-credits')
+  if (error) throw error
+  return data
+}
