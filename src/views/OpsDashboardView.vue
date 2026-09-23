@@ -49,21 +49,22 @@
         <article class="panel">
           <header class="panel-head">
             <div><span class="panel-index">01</span><h3>Fal.ai · video</h3></div>
-            <span class="panel-status">{{ fal.configured ? 'API conectada' : 'Pendiente de API' }}</span>
+            <span class="panel-status">{{ fal.status }}</span>
           </header>
           <div class="economy-main">
             <strong>{{ fal.availableLabel }}</strong>
-            <span>crédito disponible</span>
+            <span>{{ fal.availableHint }}</span>
           </div>
           <div class="economy-meta">
             <span>Usado {{ formatCurrency(fal.used) }}</span>
+            <span>Tope {{ formatCurrency(fal.budget) }}</span>
             <span>{{ formatNumber(fal.videos) }} videos en plataforma</span>
           </div>
         </article>
         <article class="panel">
           <header class="panel-head">
             <div><span class="panel-index">02</span><h3>Recraft · imágenes</h3></div>
-            <span class="panel-status">{{ recraft.configured ? 'API conectada' : 'Pendiente de API' }}</span>
+            <span class="panel-status">{{ recraft.status }}</span>
           </header>
           <div class="economy-main">
             <strong>{{ recraft.availableLabel }}</strong>
@@ -257,21 +258,29 @@ const worldMax = computed(() => Math.max(1, ...worldRows.value.map((row) => Numb
 const weekChartLabel = computed(() => weekRows.value.map((row) => `${formatWeekLabel(row.week)}: ${row.count}`).join(', '))
 const fal = computed(() => {
   const used = Number(dashboard.value.providers?.fal?.estimated_used_usd || dashboard.value.video_spend_usd || 0)
+  const budget = Number(dashboard.value.providers?.fal?.monthly_budget_usd || (dashboard.value.providers?.fal?.unit_cost_usd || 0.28) * 4)
   const available = credits.value.fal?.available
+  const configured = Boolean(credits.value.fal?.configured)
+  const live = Number.isFinite(available)
   return {
     used,
+    budget,
     videos: Number(dashboard.value.providers?.fal?.videos || dashboard.value.videos || 0),
-    configured: Boolean(credits.value.fal?.configured),
-    availableLabel: available == null ? '—' : formatCurrency(available),
+    configured,
+    availableLabel: live ? formatCurrency(available) : formatCurrency(budget),
+    availableHint: live ? 'crédito disponible' : 'tope mensual configurado',
+    status: live ? 'Saldo vivo' : configured ? 'Clave activa' : 'Sin clave',
   }
 })
 const recraft = computed(() => {
   const available = credits.value.recraft?.available
+  const configured = Boolean(credits.value.recraft?.configured)
   return {
     cutouts: Number(dashboard.value.providers?.recraft?.cutouts || 0),
     stylized: Number(dashboard.value.providers?.recraft?.stylized || 0),
-    configured: Boolean(credits.value.recraft?.configured),
-    availableLabel: available == null ? '—' : formatNumber(available),
+    configured,
+    availableLabel: Number.isFinite(available) ? formatNumber(available) : '—',
+    status: Number.isFinite(available) ? 'Saldo vivo' : configured ? 'Clave activa' : 'Sin clave',
   }
 })
 
