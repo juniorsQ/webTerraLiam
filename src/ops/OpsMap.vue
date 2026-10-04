@@ -2,8 +2,7 @@
   <section class="map-panel">
     <header class="map-head">
       <div>
-        <span class="panel-index">Mapa</span>
-        <h3>Personajes en campo</h3>
+        <h3>Personajes en el mapa</h3>
       </div>
       <span>{{ characters.length }} ubicaciones</span>
     </header>
@@ -13,8 +12,9 @@
       <aside v-if="selected" class="map-detail">
         <img v-if="selected.image" :src="selected.image" :alt="selected.name" />
         <div v-else class="detail-fallback">{{ initials(selected.name) }}</div>
-        <strong>{{ selected.name }}</strong>
-        <p>{{ selected.world }}</p>
+        <router-link :to="`/ops/pois/${selected.id}`" class="detail-title">{{ selected.name }} →</router-link>
+        <router-link :to="`/ops/worlds/${selected.world_id}`" class="detail-world">{{ selected.world }}</router-link>
+        <span v-if="selected.active === false" class="ops-badge tone-warn">Oculto</span>
         <dl>
           <div><dt>Agregado por</dt><dd>{{ selected.creator }}</dd></div>
           <div><dt>Rareza</dt><dd>{{ labelRarity(selected.rarity) }}</dd></div>
@@ -149,13 +149,14 @@ const mapStyles = [
 .map-head { margin-bottom: 1rem; }
 .map-head h3 { margin: 0; font-size: .98rem; }
 .map-head span:last-child { color: var(--ops-muted); font-size: .68rem; }
-.panel-index { color: var(--ops-cyan); font-size: .64rem; font-weight: 900; letter-spacing: .13em; }
 .map-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(240px, .7fr); gap: .85rem; }
 .map-canvas { min-height: 360px; height: min(58vh, 480px); overflow: hidden; border: 1px solid var(--ops-line); border-radius: 10px; background: #0d1527; }
 .map-detail { display: grid; align-content: start; gap: .45rem; padding: 1rem; border: 1px solid var(--ops-line); border-radius: 10px; background: #10182b; }
 .map-detail img, .detail-fallback { width: 88px; height: 88px; border-radius: 10px; object-fit: cover; background: #0d1527; }
 .detail-fallback { display: grid; place-items: center; color: var(--ops-cyan); font-weight: 900; }
-.map-detail strong { font-size: .95rem; }
+.detail-title { color: var(--ops-text); font-size: .95rem; font-weight: 800; text-decoration: none; }
+.detail-title:hover, .detail-world:hover { color: var(--ops-cyan); }
+.detail-world { color: var(--ops-muted); font-size: .74rem; text-decoration: none; }
 .map-detail p, .map-empty, dt { color: var(--ops-muted); font-size: .74rem; }
 dl { display: grid; gap: .55rem; margin: .55rem 0 0; }
 dl div { display: grid; gap: .15rem; }

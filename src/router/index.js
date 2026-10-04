@@ -10,6 +10,7 @@ import OpsLoginView from '@/views/OpsLoginView.vue'
 import OpsDashboardView from '@/views/OpsDashboardView.vue'
 import OpsResourceView from '@/views/OpsResourceView.vue'
 import OpsSettingsView from '@/views/OpsSettingsView.vue'
+import OpsDetailView from '@/views/OpsDetailView.vue'
 import { supabase } from '@/lib/supabase'
 
 const legal = (path, name, slug) => ({
@@ -21,7 +22,9 @@ const legal = (path, name, slug) => ({
 
 const router = createRouter({
   history: createWebHistory(),
-  scrollBehavior(to) {
+  scrollBehavior(to, from) {
+    // Filters/search on Ops lists only change the query: keep the scroll position.
+    if (to.path === from.path && to.meta.ops) return false
     if (to.hash && !to.hash.includes('access_token') && !to.hash.includes('type=recovery')) {
       return { el: to.hash, behavior: 'smooth' }
     }
@@ -44,6 +47,7 @@ const router = createRouter({
     { path: '/ops', name: 'ops-dashboard', component: OpsDashboardView, meta: { ops: true } },
     { path: '/ops/settings', name: 'ops-settings', component: OpsSettingsView, meta: { ops: true } },
     { path: '/ops/:resource', name: 'ops-resource', component: OpsResourceView, props: true, meta: { ops: true } },
+    { path: '/ops/:resource/:id', name: 'ops-detail', component: OpsDetailView, props: true, meta: { ops: true } },
     {
       path: '/admin/secciones/:sectionKey',
       name: 'admin-section',

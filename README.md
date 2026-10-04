@@ -100,6 +100,21 @@ El seed trae el copy en español LATAM de la landing y las páginas legales (Goo
 
 Cualquier usuario autenticado puede editar el CMS en v1. No compartas esa cuenta.
 
+## Backoffice Ops (`/ops`)
+
+Solo para cuentas con `app_metadata.platform_admin = true`. La migración
+`20261004000000_ops_backoffice_v2.sql` agrega:
+
+| Función | Uso |
+| --- | --- |
+| `ops_overview()` | KPIs con variación semanal, actividad 30 días, embudo de activación, economía IA del mes, alertas, ranking de mundos, feed |
+| `ops_list(recurso, búsqueda, filtro, limit, offset)` | Listas con `id` para navegar, búsqueda, filtros y paginación |
+| `ops_detail(recurso, id)` | Ficha de cuenta, mundo, personaje, captura o niño con todas sus relaciones |
+| `ops_mutate(recurso, id, acción, payload)` | Editar / moderar / eliminar (lista blanca) — cada acción queda en `ops_audit_log` |
+
+Las funciones viejas (`ops_dashboard`, `ops_table`) siguen existiendo pero la web ya no las usa.
+Eliminar una cuenta desde Ops borra el usuario de Auth y, en cascada, sus mundos: úsalo para las solicitudes de "Eliminar cuenta".
+
 ## Rutas
 
 - `/` landing con anclas
@@ -112,6 +127,7 @@ Cualquier usuario autenticado puede editar el CMS en v1. No compartas esa cuenta
 - `/admin` lista de secciones de la home + páginas legales
 - `/admin/secciones/:sectionKey` editor de la home
 - `/admin/paginas/:slug` editor de una página legal
+- `/ops` centro de control · `/ops/:recurso` listas · `/ops/:recurso/:id` ficha con relaciones · `/ops/settings` políticas de costo
 
 ## Recuperar contraseña (Vercel + Supabase)
 

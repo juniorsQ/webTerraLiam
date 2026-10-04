@@ -2,10 +2,10 @@
   <OpsShell>
     <header class="resource-head">
       <div>
-        <p class="crumb">TerraLiam <span>/</span> Ajustes</p>
+        <p class="crumb"><router-link to="/ops">Centro de control</router-link><span>/</span>Ajustes</p>
         <h1>Política de plataforma</h1>
       </div>
-      <span class="live-state"><i /> {{ saved || 'Listo para guardar' }}</span>
+      <router-link to="/ops/audit?filter=settings" class="live-state">Historial de cambios →</router-link>
     </header>
     <p v-if="error" class="error-banner">{{ error }}</p>
     <p v-else-if="!ready" class="loading-state">Cargando ajustes...</p>
@@ -27,6 +27,10 @@
           Tope mensual (USD)
           <input v-model.number="video.monthly_budget_usd" type="number" min="0.01" step="0.01" required />
         </label>
+        <p class="impact">
+          Con este tope alcanzan <strong>{{ videosPerBudget }}</strong> videos al mes en toda la plataforma.
+          El límite por mundo es independiente: lo aplica el servidor al pedir cada video.
+        </p>
       </article>
       <article class="panel">
         <header class="panel-head">
@@ -45,9 +49,10 @@
           Alerta de umbral
           <input v-model.number="recraft.alert_threshold" type="number" min="1" step="1" required />
         </label>
+        <p class="impact">El dashboard marca alerta cuando el saldo en vivo de Recraft baja de este número.</p>
       </article>
       <div class="form-actions">
-        <router-link to="/ops" class="back-link">← Overview</router-link>
+        <router-link to="/ops" class="back-link">← Centro de control</router-link>
         <button class="save-button" type="submit" :disabled="saving">
           {{ saving ? 'Guardando...' : 'Guardar políticas' }}
         </button>
@@ -57,18 +62,14 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { loadOpsDashboard, saveOpsSettings } from '@/ops/opsApi'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { loadOverview, saveOpsSettings } from '@/ops/opsApi'
+import { toast } from '@/ops/opsFeedback'
 import OpsShell from '@/ops/OpsShell.vue'
-import { useOpsSession } from '@/ops/useOpsSession'
 
-const router = useRouter()
-const { refresh, session, hasSupabase, isPlatformAdmin } = useOpsSession()
 const ready = ref(false)
 const saving = ref(false)
 const error = ref('')
-const saved = ref('')
 const video = reactive({
   unit_cost_usd: 0.28,
   max_videos_per_world_per_month: 4,
@@ -80,18 +81,18 @@ const recraft = reactive({
   alert_threshold: 200,
 })
 
+const videosPerBudget = computed(() => {
+  const unit = Number(video.unit_cost_usd)
+  return unit > 0 ? Math.floor(Number(video.monthly_budget_usd || 0) / unit) : 0
+})
+
 onMounted(async () => {
-  await refresh()
-  if (!hasSupabase || !session.value || !isPlatformAdmin()) {
-    router.replace('/ops/login')
-    return
-  }
   try {
-    const data = await loadOpsDashboard()
+    const data = await loadOverview()
     Object.assign(video, {
-      unit_cost_usd: Number(data.video_policy?.unit_cost_usd || data.providers?.fal?.unit_cost_usd || 0.28),
+      unit_cost_usd: Number(data.video_policy?.unit_cost_usd || 0.28),
       max_videos_per_world_per_month: Number(data.video_policy?.max_videos_per_world_per_month || 4),
-      monthly_budget_usd: Number(data.video_policy?.monthly_budget_usd || data.providers?.fal?.monthly_budget_usd || 1.12),
+      monthly_budget_usd: Number(data.video_policy?.monthly_budget_usd || 1.12),
     })
     Object.assign(recraft, {
       cutout_cost_credits: Number(data.recraft_policy?.cutout_cost_credits || 1),
@@ -108,13 +109,13 @@ onMounted(async () => {
 async function save() {
   saving.value = true
   error.value = ''
-  saved.value = ''
   try {
     await saveOpsSettings('video_policy', { ...video })
     await saveOpsSettings('recraft_policy', { ...recraft })
-    saved.value = 'Políticas actualizadas'
+    toast('Políticas actualizadas.')
   } catch (err) {
     error.value = err.message ?? 'No se pudieron guardar los ajustes.'
+    toast(error.value, 'bad')
   } finally {
     saving.value = false
   }
@@ -126,8 +127,11 @@ async function save() {
 .crumb { margin: 0 0 .45rem; color: var(--ops-muted); font-size: .75rem; }
 .crumb span { color: var(--ops-cyan); padding: 0 .35rem; }
 h1, h3 { margin: 0; color: var(--ops-text); }
+.crumb a { color: var(--ops-muted); text-decoration: none; }
 h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3.2rem); }
-.live-state { display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .75rem; border: 1px solid var(--ops-line); border-radius: 7px; color: var(--ops-muted); background: var(--ops-panel); font-size: .68rem; }
+.impact { margin: .2rem 0 0; color: var(--ops-muted); font-size: .74rem; line-height: 1.5; }
+.impact strong { color: var(--ops-cyan); }
+.live-state { text-decoration: none; display: inline-flex; align-items: center; gap: .5rem; padding: .55rem .75rem; border: 1px solid var(--ops-line); border-radius: 7px; color: var(--ops-muted); background: var(--ops-panel); font-size: .68rem; }
 .live-state i { width: 7px; height: 7px; border-radius: 50%; background: var(--ops-lime); }
 .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
 .panel { padding: 1.1rem; border: 1px solid var(--ops-line); border-radius: 10px; background: var(--ops-panel); }
